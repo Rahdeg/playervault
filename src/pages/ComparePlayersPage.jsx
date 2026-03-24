@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { comparePlayers } from "@/lib/comparePlayers";
-import { searchPlayers } from "@/lib/providers/players";
+import { searchPlayers, getPlayer } from "@/lib/providers/players";
+import trophyImg from "@/assets/trophy.svg";
+
+const COMPARE_RESULT_STORAGE_KEY = "playerFinder.compareResult";
 
 function formatValue(value) {
   if (value === null || value === undefined || value === "") return "—";
@@ -17,7 +20,29 @@ function winnerLabel(winner, aName, bName) {
   return "Draw";
 }
 
-function PlayerSearchContainer({ title, onPlayerSelect, selectedPlayer }) {
+function readSavedCompareResult() {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const raw = window.localStorage.getItem(COMPARE_RESULT_STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function clearSavedCompareResult() {
+  if (typeof window === "undefined") return;
+
+  try {
+    window.localStorage.removeItem(COMPARE_RESULT_STORAGE_KEY);
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function PlayerSearchContainer({ title, onPlayerSelect, selectedPlayer, playerNum }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -72,19 +97,43 @@ function PlayerSearchContainer({ title, onPlayerSelect, selectedPlayer }) {
 
         {selectedPlayer && (
           <div className="rounded-lg border border-primary/40 bg-primary/10 p-3">
-            <p className="font-semibold text-foreground">{selectedPlayer.name}</p>
-            <p className="text-xs text-muted-foreground">{selectedPlayer.sport}</p>
-            <p className="text-xs text-muted-foreground">
-              {selectedPlayer.position || "—"} • {selectedPlayer.team?.name || "—"}
-            </p>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => onPlayerSelect(null)}
-              className="mt-2 rounded-full"
-            >
-              Change
-            </Button>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="font-semibold text-foreground">{selectedPlayer.name}</p>
+                <p className="text-xs text-muted-foreground">{selectedPlayer.sport}</p>
+                <p className="text-xs text-muted-foreground">
+                  {selectedPlayer.position || "—"} • {selectedPlayer.team?.name || "—"}
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onPlayerSelect(null, playerNum)}
+                  className="mt-2 rounded-full"
+                >
+                  Change
+                </Button>
+              </div>
+
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border border-primary/35 bg-primary/10">
+                {selectedPlayer.image ? (
+                  <img
+                    src={selectedPlayer.image}
+                    alt={`${selectedPlayer.name} profile`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center text-sm font-semibold text-primary">
+                    {(selectedPlayer.name || "?")
+                      .split(" ")
+                      .slice(0, 2)
+                      .map((word) => word[0] ?? "")
+                      .join("")
+                      .toUpperCase()}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
@@ -93,7 +142,7 @@ function PlayerSearchContainer({ title, onPlayerSelect, selectedPlayer }) {
             {results.map((player) => (
               <button
                 key={player.id}
-                onClick={() => onPlayerSelect(player)}
+                onClick={() => onPlayerSelect(player, playerNum)}
                 className="w-full rounded-lg border border-border/70 bg-card/50 p-2 text-left transition-all hover:border-primary/50 hover:bg-card"
               >
                 <p className="text-sm font-semibold text-foreground">{player.name}</p>
@@ -114,9 +163,108 @@ function PlayerSearchContainer({ title, onPlayerSelect, selectedPlayer }) {
 }
 
 export default function ComparePlayersPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [player1, setPlayer1] = useState(null);
   const [player2, setPlayer2] = useState(null);
   const [comparison, setComparison] = useState(null);
+  const id1 = searchParams.get("id1");
+  const id2 = searchParams.get("id2");
+
+  // Load players from URL on mount
+  useEffect(() => {
+    if (!id1 && !id2) {
+      return;
+    }
+
+    const loadPlayers = async () => {
+      try {
+        const saved = readSavedCompareResult();
+        const canRestoreSavedResult =
+          saved &&
+          String(saved.id1 ?? "") === String(id1 ?? "") &&
+          String(saved.id2 ?? "") === String(id2 ?? "") &&
+          saved.player1 &&
+          saved.player2 &&
+          saved.comparison;
+
+        if (canRestoreSavedResult) {
+          setPlayer1(saved.player1);
+          setPlayer2(saved.player2);
+          setComparison(saved.comparison);
+          return;
+        }
+
+        setComparison(null);
+        if (id1) {
+          const p1 = await getPlayer(id1);
+          setPlayer1(p1);
+        } else {
+          setPlayer1(null);
+        }
+        if (id2) {
+          const p2 = await getPlayer(id2);
+          setPlayer2(p2);
+        } else {
+          setPlayer2(null);
+        }
+      } catch (err) {
+        console.error("Error loading players from URL:", err);
+      }
+    };
+
+    loadPlayers();
+  }, [id1, id2]);
+
+  useEffect(() => {
+    if (!comparison || !player1 || !player2 || !id1 || !id2) return;
+    if (typeof window === "undefined") return;
+
+    try {
+      window.localStorage.setItem(
+        COMPARE_RESULT_STORAGE_KEY,
+        JSON.stringify({
+          id1,
+          id2,
+          player1,
+          player2,
+          comparison,
+          savedAt: Date.now(),
+        })
+      );
+    } catch {
+      // ignore storage errors
+    }
+  }, [id1, id2, player1, player2, comparison]);
+
+  function handlePlayerSelect(player, playerNum) {
+    if (playerNum === 1) {
+      setPlayer1(player);
+      if (player) {
+        setSearchParams((prev) => {
+          prev.set("id1", player.id);
+          return prev;
+        });
+      } else {
+        setSearchParams((prev) => {
+          prev.delete("id1");
+          return prev;
+        });
+      }
+    } else {
+      setPlayer2(player);
+      if (player) {
+        setSearchParams((prev) => {
+          prev.set("id2", player.id);
+          return prev;
+        });
+      } else {
+        setSearchParams((prev) => {
+          prev.delete("id2");
+          return prev;
+        });
+      }
+    }
+  }
 
   function handleCompare() {
     if (!player1 || !player2) {
@@ -129,8 +277,7 @@ export default function ComparePlayersPage() {
 
   function clearComparison() {
     setComparison(null);
-    setPlayer1(null);
-    setPlayer2(null);
+    clearSavedCompareResult();
   }
 
   return (
@@ -155,12 +302,14 @@ export default function ComparePlayersPage() {
           <PlayerSearchContainer
             title="Player 1"
             selectedPlayer={player1}
-            onPlayerSelect={setPlayer1}
+            onPlayerSelect={handlePlayerSelect}
+            playerNum={1}
           />
           <PlayerSearchContainer
             title="Player 2"
             selectedPlayer={player2}
-            onPlayerSelect={setPlayer2}
+            onPlayerSelect={handlePlayerSelect}
+            playerNum={2}
           />
         </div>
       )}
@@ -189,18 +338,24 @@ export default function ComparePlayersPage() {
             <>
               {/* Decision Card */}
               <Card className="border border-primary/35 bg-card/80">
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-lg">Decision</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <p>
+                <CardContent className="flex flex-row items-center justify-between  text-sm">
+                  <div className="space-y-1">
+                  <p className=" text-xl md:text-3xl">
                     <span className="font-semibold">Winner:</span>{" "}
-                    {winnerLabel(comparison.winner, player1.name, player2.name)}
+                   <strong>
+                   {winnerLabel(comparison.winner, player1.name, player2.name)} 
+                    </strong> 
                   </p>
                   <p className="text-muted-foreground">
                     Score: {player1.name} ({comparison.totals.a}) vs {player2.name} (
                     {comparison.totals.b})
                   </p>
+                  </div>
+                  
+                   <img src={trophyImg} alt="trophy" className="size-40" />
                 </CardContent>
               </Card>
 
@@ -211,8 +366,11 @@ export default function ComparePlayersPage() {
                     <CardHeader>
                       <CardTitle className="text-lg">{player.name}</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-2 text-sm text-muted-foreground">
-                      <p>
+                    <CardContent className=" flex items-center justify-between">
+                     
+
+<div className="space-y-2 text-sm text-muted-foreground">
+   <p>
                         <span className="font-semibold text-foreground">Sport:</span>{" "}
                         {formatValue(player.sport)}
                       </p>
@@ -236,6 +394,29 @@ export default function ComparePlayersPage() {
                         <span className="font-semibold text-foreground">Age:</span>{" "}
                         {formatValue(player.age)}
                       </p>
+</div>
+ <div className="mb-3 flex justify-center">
+                        <div className=" h-48 w-48 shrink-0 overflow-hidden rounded-full border border-primary/35 bg-primary/10">
+                          {player.image ? (
+                            <img
+                              src={player.image}
+                              alt={`${player.name} profile`}
+                              className="h-full w-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span className="flex h-full w-full items-center justify-center text-2xl font-semibold text-primary">
+                              {(player.name || "?")
+                                .split(" ")
+                                .slice(0, 2)
+                                .map((word) => word[0] ?? "")
+                                .join("")
+                                .toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                     
                     </CardContent>
                   </Card>
                 ))}

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { House, Search, Info } from "lucide-react";
+import { House, Search, Info, Scale } from "lucide-react";
 
 function NavItem({ to, children, end, icon }) {
   const IconComponent = icon;
@@ -36,6 +36,7 @@ export default function Header() {
         <nav aria-label="Primary navigation" className="flex items-center gap-1">
           <NavItem to="/" end icon={House}>Home</NavItem>
           <NavItem to="/search" icon={Search}>Find</NavItem>
+          <NavItem to="/compare" icon={Scale}>Compare</NavItem>
           <NavItem to="/about" icon={Info}>Info</NavItem>
         </nav>
       </div>

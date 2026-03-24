@@ -40,3 +40,31 @@
 .read-the-docs {
   color: #888;
 }
+
+@keyframes trophy-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes trophy-spin {
+  0% {
+    transform: rotateZ(-5deg);
+  }
+  50% {
+    transform: rotateZ(5deg);
+  }
+  100% {
+    transform: rotateZ(-5deg);
+  }
+}
+
+.trophy-icon {
+  height: 5rem;
+  width: auto;
+  object-fit: contain;
+  animation: trophy-bounce 2.5s ease-in-out infinite, trophy-spin 2s ease-in-out infinite;
+}
