@@ -1,0 +1,565 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #efd6e5;
+  --foreground: #b33a82;
+  --card: #f6e5ef;
+  --card-foreground: #9e3574;
+  --popover: #f8eaf2;
+  --popover-foreground: #9e3574;
+  --primary: #e64ca0;
+  --primary-foreground: #fff8fc;
+  --secondary: #f1dece;
+  --secondary-foreground: #8f2f69;
+  --muted: #f2deea;
+  --muted-foreground: #a15f88;
+  --accent: #8a8f34;
+  --accent-foreground: #fffdee;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #eb9ac5;
+  --input: #eb9ac5;
+  --ring: #e64ca0;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  #root {
+    @apply min-h-dvh;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", "Avenir Next", "Avenir", "Segoe UI", sans-serif;
+    background-image: radial-gradient(circle at 8% 8%, rgba(230, 76, 160, 0.12), transparent 32%),
+      radial-gradient(circle at 92% 18%, rgba(138, 143, 52, 0.1), transparent 28%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(12px);
+  animation: drift 14s ease-in-out infinite;
+}
+
+.ambient-orb--one {
+  top: -10rem;
+  right: -4rem;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(230, 76, 160, 0.2) 0%, rgba(230, 76, 160, 0) 70%);
+}
+
+.ambient-orb--two {
+  left: -6rem;
+  bottom: -8rem;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle, rgba(138, 143, 52, 0.16) 0%, rgba(138, 143, 52, 0) 70%);
+  animation-delay: 2.4s;
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to right, rgba(230, 76, 160, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(230, 76, 160, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.18;
+  -webkit-mask-image: radial-gradient(circle at center, black 38%, transparent 95%);
+  mask-image: radial-gradient(circle at center, black 38%, transparent 95%);
+}
+
+.elev8-shell {
+  border: 1px solid var(--border);
+  background: linear-gradient(145deg, rgba(248, 234, 242, 0.75), rgba(238, 211, 226, 0.45));
+  border-radius: 2rem;
+  padding: clamp(1.1rem, 3vw, 2rem);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  box-shadow: 0 18px 50px rgba(205, 88, 151, 0.14);
+}
+
+.elev8-card {
+  background: linear-gradient(180deg, rgba(250, 237, 245, 0.86), rgba(243, 218, 232, 0.64));
+  border-radius: 1.35rem;
+}
+
+.hero-core {
+  position: relative;
+  width: 230px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, rgba(255, 248, 253, 0.92) 5%, rgba(244, 220, 234, 0.6) 70%, transparent 100%);
+}
+
+.hero-core__ring {
+  position: absolute;
+  inset: 12%;
+  border: 2px solid rgba(230, 76, 160, 0.5);
+  border-radius: 999px;
+  animation: pulse-ring 2.8s ease-in-out infinite;
+}
+
+.hero-core__orbit {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  animation: hero-orbit-spin 18s linear infinite;
+}
+
+.hero-core__sport {
+  --orbit-radius: 84px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.05rem;
+  height: 2.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 76, 160, 0.35);
+  background: rgba(252, 239, 247, 0.96);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 14px rgba(182, 56, 125, 0.2);
+  transform: translate(-50%, -50%) rotate(calc((360deg / var(--total)) * var(--index))) translateY(calc(-1 * var(--orbit-radius)));
+}
+
+.hero-core__player {
+  font-size: 4rem;
+  line-height: 1;
+  animation: float-y 3.3s ease-in-out infinite;
+  filter: drop-shadow(0 12px 20px rgba(182, 56, 125, 0.3));
+}
+
+.marquee-wrap {
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 76, 160, 0.4);
+  background: rgba(246, 228, 239, 0.75);
+}
+
+.marquee-track {
+  display: flex;
+  min-width: max-content;
+  gap: 2.4rem;
+  padding: 0.7rem 1.2rem;
+  animation: marquee-slide 16s linear infinite;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(158, 53, 116, 0.8);
+}
+
+.animate-rise {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.animate-rise-delay {
+  animation: rise-in 0.75s ease-out both;
+  animation-delay: 0.12s;
+}
+
+.animate-rise-delay-2 {
+  animation: rise-in 0.75s ease-out both;
+  animation-delay: 0.22s;
+}
+
+.scroll-nav-shell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 76, 160, 0.4);
+  background: rgba(248, 234, 242, 0.72);
+  padding: 0.6rem 0.42rem;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.scroll-nav-track {
+  position: relative;
+  width: 2px;
+  height: 88px;
+  border-radius: 999px;
+  background: rgba(230, 76, 160, 0.24);
+  overflow: hidden;
+}
+
+.scroll-nav-progress {
+  position: absolute;
+  inset: 0;
+  transform-origin: top;
+  background: linear-gradient(to bottom, rgba(230, 76, 160, 0.95), rgba(138, 143, 52, 0.9));
+}
+
+.scroll-nav-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scroll-nav-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 76, 160, 0.6);
+  background: rgba(246, 225, 237, 0.95);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.scroll-nav-dot:hover,
+.scroll-nav-dot.is-active {
+  transform: scale(1.25);
+  background: rgba(230, 76, 160, 0.9);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.56;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -14px);
+  }
+}
+
+@keyframes marquee-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-45%);
+  }
+}
+
+/* ── Orbit card ──────────────────────────────────────────────── */
+
+.orbit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.4rem 0.9rem 1.1rem;
+  border: 1px solid rgba(230, 76, 160, 0.24);
+  border-radius: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 4px;
+}
+
+.orbit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 44px rgba(205, 88, 151, 0.28);
+}
+
+.orbit-card:focus-visible {
+  outline: 2px solid rgba(230, 76, 160, 0.8);
+}
+
+.orbit-zone {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.orbit-ring-dash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(230, 76, 160, 0.45);
+  animation: orbit-rotate 26s linear infinite;
+  pointer-events: none;
+}
+
+/* Centre image circle */
+.orbit-center-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 108px;
+  height: 108px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(230, 76, 160, 0.65);
+  background: rgba(244, 220, 234, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 7px rgba(230, 76, 160, 0.1),
+    0 8px 24px rgba(182, 56, 125, 0.28);
+  z-index: 2;
+}
+
+/* Larger version for player detail page */
+.orbit-center-node--lg {
+  width: 152px;
+  height: 152px;
+}
+
+/* Initials fallback */
+.orbit-initials {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: rgba(180, 55, 120, 0.85);
+  letter-spacing: 0.05em;
+}
+
+.orbit-initials--lg {
+  font-size: 2.2rem;
+}
+
+/* Pulse ring on image node */
+.orbit-pulse {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(230, 76, 160, 0.5);
+  animation: pulse-ring 2.9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Satellite labels ────────────────────────────────────────── */
+
+.satellite {
+  position: absolute;
+  max-width: 78px;
+  padding: 0.24rem 0.52rem;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 76, 160, 0.48);
+  background: rgba(250, 236, 244, 0.97);
+  color: rgba(155, 50, 112, 0.92);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(182, 56, 125, 0.18);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Slightly larger satellites for detail page */
+.satellite--lg {
+  max-width: 190px;
+  min-width: 120px;
+  padding: 0.42rem 0.8rem;
+  font-size: 0.67rem;
+  line-height: 1.35;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+
+/* ── About panel ─────────────────────────────────────────────── */
+
+.about-text-zone {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.about-text-zone::-webkit-scrollbar {
+  width: 4px;
+}
+
+.about-text-zone::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.about-text-zone::-webkit-scrollbar-thumb {
+  background: rgba(230, 76, 160, 0.4);
+  border-radius: 999px;
+}
+
+/* Blinking typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  color: rgba(230, 76, 160, 0.95);
+  font-weight: 400;
+  margin-left: 1px;
+  animation: cursor-blink 0.75s step-end infinite;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────── */
+
+@keyframes orbit-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes hero-orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Reduced motion overrides ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb,
+  .hero-core__ring,
+  .hero-core__orbit,
+  .hero-core__player,
+  .marquee-track,
+  .animate-rise,
+  .animate-rise-delay,
+  .animate-rise-delay-2,
+  .orbit-ring-dash,
+  .orbit-pulse,
+  .typewriter-cursor {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
