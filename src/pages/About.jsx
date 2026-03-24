@@ -21,19 +21,7 @@ export default function About() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Accessibility commitment</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Semantic layout, logical heading structure, and keyboard-first navigation</li>
-            <li>Visible focus styles and clear component states across interactive elements</li>
-            <li>Form labels, concise validation feedback, and readable contrast choices</li>
-            <li>Reduced-motion support for users who prefer less animation</li>
-          </ul>
-        </CardContent>
-      </Card>
+     
 
       <Card>
         <CardHeader>
