@@ -1,5 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { House, Search, Info, Scale } from "lucide-react";
+import logo from "@/assets/logo.svg";
+import logoSm from "@/assets/logosm.svg";
 
 function NavItem({ to, children, end, icon }) {
   const IconComponent = icon;
@@ -28,10 +30,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-5">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between rounded-full border border-border/80 bg-card/70 px-3 py-2 shadow-[0_12px_40px_rgba(205,88,151,0.18)] backdrop-blur-xl sm:px-5">
-        <div className="flex items-center gap-2">
-          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-full border border-primary/40 text-sm text-primary">✧</span>
-          <span className="hidden text-xs font-bold tracking-[0.2em] uppercase text-foreground/90 sm:inline">PlayerVault</span>
-        </div>
+        <Link to="/" className="flex shrink-0 items-center" aria-label="Go to home">
+          <img src={logoSm} alt="PlayerVault" className="h-10 w-10 sm:hidden" />
+          <img src={logo} alt="PlayerVault" className="hidden h-auto w-44 sm:block md:w-52" />
+        </Link>
 
         <nav aria-label="Primary navigation" className="flex items-center gap-1">
           <NavItem to="/" end icon={House}>Home</NavItem>

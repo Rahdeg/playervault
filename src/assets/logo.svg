@@ -1,0 +1,91 @@
+<svg width="640" height="180" viewBox="0 0 640 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Updated gradient using your brand color -->
+    <linearGradient id="pvGrad" x1="24" y1="20" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b33a82"/>
+      <stop offset="1" stop-color="#6b1f4d"/>
+    </linearGradient>
+
+    <!-- Text gradient adjusted to match -->
+    <linearGradient id="pvTextGrad" x1="180" y1="40" x2="500" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6b1f4d"/>
+      <stop offset="1" stop-color="#8f2f68"/>
+    </linearGradient>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Logo mark -->
+  <g filter="url(#softGlow)">
+    <!-- Shield -->
+    <path d="M90 18
+             C116 32 135 35 150 37
+             V82
+             C150 118 128 145 90 162
+             C52 145 30 118 30 82
+             V37
+             C45 35 64 32 90 18Z"
+          fill="url(#pvGrad)"/>
+
+    <!-- Inner border -->
+    <path d="M90 34
+             C109 45 123 47 134 49
+             V81
+             C134 107 118 126 90 139
+             C62 126 46 107 46 81
+             V49
+             C57 47 71 45 90 34Z"
+          fill="#000000"
+          fill-opacity="0.2"
+          stroke="rgba(255,255,255,0.3)"
+          stroke-width="2"/>
+
+    <!-- Vault core -->
+    <circle cx="90" cy="83" r="28" fill="#000000" fill-opacity="0.35" stroke="white" stroke-opacity="0.4" stroke-width="2"/>
+
+    <!-- Player -->
+    <circle cx="90" cy="72" r="7" fill="white"/>
+    <path d="M76 98C79 88 86 84 90 84C94 84 101 88 104 98"
+          stroke="white"
+          stroke-width="6"
+          stroke-linecap="round"/>
+
+    <!-- Vault spokes -->
+    <path d="M90 55V64" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <path d="M90 102V111" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <path d="M62 83H71" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <path d="M109 83H118" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g>
+    <text x="185" y="88"
+          fill="url(#pvTextGrad)"
+          font-family="Inter, Poppins, Montserrat, Arial, sans-serif"
+          font-size="42"
+          font-weight="800"
+          letter-spacing="1.5">
+      PLAYER
+    </text>
+
+    <text x="185" y="128"
+          fill="#7c275b"
+          font-family="Inter, Poppins, Montserrat, Arial, sans-serif"
+          font-size="42"
+          font-weight="800"
+          letter-spacing="1.5">
+      VAULT
+    </text>
+
+    <text x="187" y="150"
+          fill="#8a5b77"
+          font-family="Inter, Poppins, Montserrat, Arial, sans-serif"
+          font-size="12"
+          font-weight="500"
+          letter-spacing="4">
+      SEARCH • COMPARE • DISCOVER
+    </text>
+  </g>
+</svg>
