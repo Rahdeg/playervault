@@ -1,0 +1,60 @@
+<svg width="260" height="72" viewBox="0 0 320 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pvGrad" x1="12" y1="10" x2="75" y2="75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b33a82"/>
+      <stop offset="1" stop-color="#6b1f4d"/>
+    </linearGradient>
+
+    <linearGradient id="pvTextGrad" x1="90" y1="20" x2="250" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Logo mark -->
+  <g transform="scale(0.5)">
+    <path d="M90 18C116 32 135 35 150 37V82C150 118 128 145 90 162C52 145 30 118 30 82V37C45 35 64 32 90 18Z"
+          fill="url(#pvGrad)"/>
+
+    <path d="M90 34C109 45 123 47 134 49V81C134 107 118 126 90 139C62 126 46 107 46 81V49C57 47 71 45 90 34Z"
+          fill="#000000" fill-opacity="0.2"
+          stroke="white" stroke-opacity="0.3" stroke-width="2"/>
+
+    <circle cx="90" cy="83" r="28"
+            fill="#000000" fill-opacity="0.35"
+            stroke="white" stroke-opacity="0.4" stroke-width="2"/>
+
+    <circle cx="90" cy="72" r="7" fill="white"/>
+
+    <path d="M76 98C79 88 86 84 90 84C94 84 101 88 104 98"
+          stroke="white" stroke-width="6" stroke-linecap="round"/>
+
+    <path d="M90 55V64M90 102V111M62 83H71M109 83H118"
+          stroke="white" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="88" y="38"
+        fill="url(#pvTextGrad)"
+        font-family="Inter, Poppins, Montserrat, Arial, sans-serif"
+        font-size="20"
+        font-weight="800">
+    PLAYER
+  </text>
+
+  <text x="88" y="58"
+        fill="#b33a82"
+        font-family="Inter, Poppins, Montserrat, Arial, sans-serif"
+        font-size="20"
+        font-weight="800">
+    VAULT
+  </text>
+
+  <text x="89" y="74"
+        fill="#94A3B8"
+        font-family="Inter, Arial, sans-serif"
+        font-size="6"
+        letter-spacing="1.5">
+    SEARCH • COMPARE • DISCOVER
+  </text>
+</svg>

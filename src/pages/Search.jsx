@@ -181,7 +181,7 @@ export default function Search() {
       </MotionSection>
 
       <div className="mt-6" id="search-filters">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={handleSearch} focusOnMount />
       </div>
 
       <MotionDiv

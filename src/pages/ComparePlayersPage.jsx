@@ -8,6 +8,7 @@ import { searchPlayers, getPlayer } from "@/lib/providers/players";
 import trophyImg from "@/assets/trophy.svg";
 
 const COMPARE_RESULT_STORAGE_KEY = "playerFinder.compareResult";
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function formatValue(value) {
   if (value === null || value === undefined || value === "") return "—";
@@ -26,7 +27,12 @@ function readSavedCompareResult() {
   try {
     const raw = window.localStorage.getItem(COMPARE_RESULT_STORAGE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed?.savedAt || Date.now() - parsed.savedAt > CACHE_TTL_MS) {
+      window.localStorage.removeItem(COMPARE_RESULT_STORAGE_KEY);
+      return null;
+    }
+    return parsed;
   } catch {
     return null;
   }

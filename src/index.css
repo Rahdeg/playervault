@@ -172,11 +172,9 @@
 
 .elev8-shell {
   border: 1px solid var(--border);
-  background: linear-gradient(145deg, rgba(248, 234, 242, 0.75), rgba(238, 211, 226, 0.45));
+  background: linear-gradient(145deg, rgba(230, 76, 160, 0.1), rgba(238, 211, 226, 0.22));
   border-radius: 2rem;
   padding: clamp(1.1rem, 3vw, 2rem);
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
   box-shadow: 0 18px 50px rgba(205, 88, 151, 0.14);
 }
 
@@ -192,7 +190,7 @@
   border-radius: 999px;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle, rgba(255, 248, 253, 0.92) 5%, rgba(244, 220, 234, 0.6) 70%, transparent 100%);
+  background: radial-gradient(circle, rgba(244, 220, 234, 0.18) 0%, transparent 75%);
 }
 
 .hero-core__ring {
@@ -273,10 +271,8 @@
   gap: 0.5rem;
   border-radius: 999px;
   border: 1px solid rgba(230, 76, 160, 0.4);
-  background: rgba(248, 234, 242, 0.72);
+  background: rgba(230, 76, 160, 0.12);
   padding: 0.6rem 0.42rem;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
 }
 
 .scroll-nav-track {

@@ -1,9 +1,18 @@
+import { useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePreferences } from "@/context/usePreferences";
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar({ onSearch, focusOnMount = false }) {
   const { query, setQuery } = usePreferences();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!focusOnMount) return;
+    // Wait for the page-enter transition (0.38s) to finish before focusing
+    const id = setTimeout(() => inputRef.current?.focus(), 420);
+    return () => clearTimeout(id);
+  }, [focusOnMount]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -13,6 +22,7 @@ export default function SearchBar({ onSearch }) {
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 rounded-full border border-border/80 bg-card/70 p-2 shadow-[0_10px_30px_rgba(205,88,151,0.18)] backdrop-blur-md">
       <Input
+        ref={inputRef}
         placeholder="Search players by name..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}

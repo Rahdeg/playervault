@@ -21,7 +21,6 @@ export default function Home() {
   const MotionSection = motion.section;
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 0.4], [0, 80]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0.25]);
   const [activeIconIndex, setActiveIconIndex] = useState(0);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-12 pt-8 sm:pt-10">
-      <MotionSection id="home-hero" style={{ y: heroY, opacity: heroOpacity }} className="elev8-shell animate-rise">
+      <MotionSection id="home-hero" style={{ y: heroY }} className="elev8-shell animate-rise">
         <p className="text-center text-xs font-semibold tracking-[0.34em] text-primary/90 uppercase">
           PLAYERVAULT · UNLOCK PLAYER INSIGHTS
         </p>
@@ -68,7 +67,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <Button asChild size="lg" className="rounded-full px-8 text-sm tracking-[0.16em] uppercase">
+          <Button asChild size="lg" className="rounded-full px-8 text-sm font-bold tracking-[0.16em] uppercase shadow-[0_0_28px_rgba(230,76,160,0.55)] brightness-110 hover:brightness-125 transition-[filter,box-shadow] hover:shadow-[0_0_40px_rgba(230,76,160,0.75)]">
             <Link to="/search">Start Search Journey</Link>
           </Button>
         </div>
