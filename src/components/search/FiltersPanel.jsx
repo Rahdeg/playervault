@@ -25,6 +25,13 @@ const sports = [
 export default function FiltersPanel() {
   const { filters, setFilters } = usePreferences();
 
+  const ageError =
+    filters.ageMin !== "" &&
+    filters.ageMax !== "" &&
+    Number(filters.ageMin) > Number(filters.ageMax)
+      ? "Min age cannot be greater than max age."
+      : "";
+
   function resetFilters() {
     setFilters({
       sport: "",
@@ -85,7 +92,9 @@ export default function FiltersPanel() {
         <Input
           placeholder="Min Age"
           type="number"
+          min="1"
           value={filters.ageMin}
+          aria-invalid={!!ageError}
           onChange={(e) =>
             setFilters({ ...filters, ageMin: e.target.value })
           }
@@ -95,13 +104,22 @@ export default function FiltersPanel() {
         <Input
           placeholder="Max Age"
           type="number"
+          min="1"
           value={filters.ageMax}
+          aria-invalid={!!ageError}
+          aria-describedby={ageError ? "age-error" : undefined}
           onChange={(e) =>
             setFilters({ ...filters, ageMax: e.target.value })
           }
           className="rounded-full border-primary/30 bg-background/80"
         />
       </div>
+
+      {ageError && (
+        <p id="age-error" role="alert" className="text-xs font-medium text-destructive">
+          {ageError}
+        </p>
+      )}
 
       <Button type="button" variant="outline" onClick={resetFilters} className="rounded-full border-primary/40">
         Reset filters

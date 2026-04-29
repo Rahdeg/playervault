@@ -334,8 +334,11 @@ export default function ComparePlayersPage() {
         <div className="mt-6 space-y-6">
           {!comparison.comparable && (
             <Card className="border border-destructive/45 bg-card/70">
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 space-y-4">
                 <p className="text-sm text-destructive">{comparison.reason}</p>
+                <Button onClick={clearComparison} variant="outline" className="rounded-full">
+                  ← Try different players
+                </Button>
               </CardContent>
             </Card>
           )}
